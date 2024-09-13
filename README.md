@@ -14,7 +14,7 @@ In this repository I have tried to create a secure template for my backend proje
 
 - __CORS__ Middleware configuration to prevent the requests from specific domains
 - __Docker Compose__ Configuration
-- __Test Scripts__ for database and routs
+- __Test Scripts__ for database and API routes
 - __Using All CRUD operations__ for different models (tables)
 - __Using Sqlalchemy ORM__ To facilitate the CRUD operations on tables in database
 
