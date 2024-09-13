@@ -1,0 +1,22 @@
+services:
+  fastapi-app:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - 9090:9090
+    depends_on:
+      - db
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    expose:
+      - 5432
+    environment:
+      - POSTGRES_USER=<your postgres user>
+      - POSTGRES_PASSWORD=<user password for postgres>
+      - POSTGRES_DB=<database name>
+
+volumes:
+  postgres_data:

@@ -54,8 +54,8 @@ class ProductUpdate(ProductBase):
 
 
 class UserBase(BaseModel):
-    user_name: str
-    user_password: str
+    username: str
+    password: str
 
     class Config:
         from_attributes = True
@@ -81,4 +81,12 @@ class Invoice(BaseModel):
 
 class InvoiceUpdate(Invoice):
     id: int
-    
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    username: str | None = None
