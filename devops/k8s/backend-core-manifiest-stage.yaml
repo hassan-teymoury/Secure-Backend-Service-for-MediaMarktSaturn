@@ -1,0 +1,76 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: backend-core-stage
+  name: backend-core-stage
+  namespace: backend-stage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-core-stage
+  template:
+    metadata:
+      labels:
+        app: backend-core-stage
+    spec:
+      containers:
+        - image: . # or you can pass the registered image. Example: <HOSTNAME OR IP ADDRESSS>/docker-image/media-market-saturn/back-end/core-stage:IMAGE_TAG
+          name: backend-core-stage
+          envFrom:
+            - configMapRef:
+                name: env-config-global
+
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-backend-secret
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-backend-secret
+                  key: password
+            - name: POSTGRES_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-backend-secret
+                  key: host
+            - name: POSTGRES_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-backend-secret
+                  key: port
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-backend-secret
+                  key: db_name
+
+          ports:
+            - containerPort: 80
+              name: http
+
+      imagePullSecrets:
+        - name: regcred
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: backend-core-stage
+  name: backend-core-stage
+  namespace: backend-stage
+spec:
+  type: NodePort
+  ports:
+    - name: http
+      port: 80
+      nodePort: 30101
+      targetPort: 80
+  selector:
+    app: backend-core-stage

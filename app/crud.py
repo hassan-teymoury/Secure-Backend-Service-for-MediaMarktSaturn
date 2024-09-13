@@ -63,20 +63,31 @@ def get_bookmarks(db: Session):
     return res
 
 
-def get_bookmark(db: Session, bookmark_id: int):
+def get_bookmark(db: Session, user_id: int):
     res = db.query(models.UserBookmark).filter(
-        models.UserBookmark.id == bookmark_id).first()
+        models.UserBookmark.user_id == user_id).all()
+    return res
+
+
+def get_bank_accounts(db: Session):
+    res = db.query(models.BankAccount).all()
+    return res
+
+
+def get_bank_account(db: Session, user_id: int):
+    res = db.query(models.BankAccount).filter(
+        models.UserBookmark.user_id == user_id).first()
     return res
 
 
 def create_user(db: Session, user: schemas.UserCreate):
     user_db_model = models.User()
-    user_db_model.user_name = user.user_name
+    user_db_model.user_name = user.username
     user_db_model.user_address = user.user_address
     user_db_model.user_email = user.user_email
     user_db_model.user_phone = user.user_phone
     user_db_model.user_identity_code = user.user_identity_code
-    user_db_model.user_password = user.user_password
+    user_db_model.user_password = user.password
     user_db_model.date_created = datetime.now()
     db.add(user_db_model)
     db.commit()
@@ -86,8 +97,10 @@ def create_user(db: Session, user: schemas.UserCreate):
 
 def update_user(db: Session, user: schemas.UserUpdate):
     db_user = db.query(models.User).filter(models.User.id == user.id).first()
-    db_user.user_name = user.user_name
-    db_user.user_password = user.user_password
+    if not db_user:
+        return None
+    db_user.user_name = user.username
+    db_user.user_password = user.password
     db_user.user_address = user.user_address
     db_user.user_email = user.user_email
     db_user.user_phone = user.user_phone
@@ -257,5 +270,57 @@ def update_invoice(db: Session, invoice = schemas.InvoiceUpdate):
     db.refresh(db_invoice)
     return db_invoice
 
+
+
+def delete_user(db:Session, user_id:int):
+    db_user = db.query(models.User).filter(models.User.id == user_id).first()
+    db.delete(db_user)
+    db.commit()
+    return db_user
+
+
+
+def delete_product(db:Session, product_id:int):
+    db_product = db.query(models.Product).filter(models.Product.id == product_id).first()
+    db.delete(db_product)
+    db.commit()
+    return db_product
+
+
+def delete_company(db:Session, company_id:int):
+    db_company = db.query(models.Company).filter(models.Company.id == company_id).first()
+    db.delete(db_company)
+    db.commit()
+    return db_company
+
+
+def delete_product_tag(db:Session, tag_id:int):
+    db_tag = db.query(models.ProductTag).filter(models.ProductTag.id == tag_id).first()
+    db.delete(db_tag)
+    db.commit()
+    return db_tag
+
+
+
+def delete_bookmark(db:Session, bookmark_id:int):
+    db_bookmark = db.query(models.UserBookmark).filter(models.UserBookmark.id == bookmark_id).first()
+    db.delete(db_bookmark)
+    db.commit()
+    return db_bookmark
+
+
+
+def delete_bank_account(db:Session, bank_account_id:int):
+    db_bank_account = db.query(models.BankAccount).filter(models.BankAccount.id == bank_account_id).first()
+    db.delete(db_bank_account)
+    db.commit()
+    return db_bank_account
+
+
+def delete_invoice(db: Session, invoice_id:int):
+    db_invoice = db.query(models.Invoice).filter(models.Invoice.id == invoice_id).first()
+    db.delete(db_invoice)
+    db.commit()
+    return db_invoice
 
 

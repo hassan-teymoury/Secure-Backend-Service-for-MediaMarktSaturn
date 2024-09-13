@@ -5,16 +5,19 @@ from database import Base
 
 
 
+
+
+
 class User(Base):
     __tablename__ = "users"
     
     id = Column(Integer, primary_key=True, index=True)
     user_name = Column(String, name="user_name")
-    user_phone = Column(String, name="user_phone")
-    user_identity_code = Column(String, name="user_id_code")
-    user_email = Column(String, name="user_email")
+    user_phone = Column(String, name="user_phone", unique=True)
+    user_identity_code = Column(String, name="user_id_code", unique=True)
+    user_email = Column(String, name="user_email", unique=True)
     user_password = Column(String, name="user_password")
-    user_address = Column(String, name="user_address")
+    user_address = Column(String, name="user_address", unique=True)
     last_login = Column(DateTime, name="last_login")
     last_fp_app_code = Column(String, name="last_fp_app_code")
     last_fp_req = Column(DateTime, name="last_fp_req")
@@ -23,7 +26,7 @@ class User(Base):
     date_created =  Column(DateTime, name="date_created")
     date_updated =  Column(DateTime, name="date_updated")
     user_bookmark_id = Column(Integer, ForeignKey("user_bookmarks.id"), name="user_bookmark_id")
-    user_bank_account_id = Column(Integer, ForeignKey("bank_accounts.id", name="user_bank_account_id"))
+    user_bank_account_id = Column(Integer, ForeignKey("bank_accounts.id"), name="user_bank_account_id", unique=True)
     user_is_company = Column(Boolean, name="user_is_company", default=False)
     user_company_id = Column(Integer, ForeignKey("companies.id"), name="user_company_id", nullable=True)
     
