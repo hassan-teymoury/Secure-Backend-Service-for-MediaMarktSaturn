@@ -276,6 +276,7 @@ async def create_user(db: Annotated[Session, Depends(get_db)],
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT, detail=f"User with email {user.user_email} already exists"
         )
+    user.password = get_password_hash(user.password)
     created_user = crud.create_user(db=db, user=user)
     return created_user
 
