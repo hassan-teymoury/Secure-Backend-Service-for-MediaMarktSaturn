@@ -22,15 +22,17 @@ In this repository I have tried to create a secure template for my backend proje
 
 ## Getting started with docker compose
 
-To launch the API in your local host, first you need to specify the database connection settings for env variables in  __`app/database.py`, `Dockerfile`, `docker-compose.yaml` and `devops/k8s/backend-core-manifiest-stage.yaml`__.
-
-After setting the env variables for database connection, you can launch the fastapi app using the following commands
-
+- Clone the repo
 ```bash
 
 git clone https://github.com/hassan-teymoury/Secure-Backend-Service-for-MediaMarktSaturn.git
 
 cd Secure-Backend-Service-for-MediaMarktSaturn
+```
+
+- To launch the API in your local host, first you need to specify the database connection   settings for env variables in  __`app/database.py`, `Dockerfile`, `docker-compose.yaml` and `devops/k8s/backend-core-manifiest-stage.yaml`__.  After setting the env variables for database connection, you can launch the fastapi app using the following commands
+
+```bash
 
 docker compose build
 
