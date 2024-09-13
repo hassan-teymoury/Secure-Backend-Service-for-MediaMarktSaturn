@@ -1,6 +1,9 @@
-fastapi[all]==0.108.0
 sqlalchemy==2.0.31
+fastapi[all]==0.108.0
+pydantic==2.5.3
 psycopg2
+pandas
+numpy
 pyjwt
 passlib[bcrypt]
 secrets
